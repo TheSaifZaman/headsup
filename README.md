@@ -31,11 +31,14 @@ meeting.
 
 ```sh
 brew tap TheSaifZaman/tap
-brew install --cask heads-up --no-quarantine
+brew trust TheSaifZaman/tap
+brew install --cask heads-up
+xattr -dr com.apple.quarantine "/Applications/Heads Up.app"
 ```
 
-If Homebrew warns about an untrusted tap, run `brew trust TheSaifZaman/tap`
-once and repeat the install. Or grab the `.dmg` from
+The last command tells macOS to accept the app (it's ad-hoc signed, not
+notarized) so it opens automatically — no right-click → Open dance needed.
+Or grab the `.dmg` from
 [Releases](https://github.com/TheSaifZaman/headsup/releases).
 
 Enjoying it? ⭐ star this repo, and open an

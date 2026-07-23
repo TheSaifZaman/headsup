@@ -42,7 +42,7 @@ struct HelpView: View {
                          "Settings covers: launch at login (on by default), Dock icon and/or menu bar countdown, alert themes, and where the database file lives — point it at iCloud Drive or Dropbox to carry your data across Macs. Everything is stored in one human-readable database.json.")
 
                     step("shippingbox", "7. Share it",
-                         "Anyone with a Mac (Apple Silicon, macOS 14+) can install with Homebrew:\n\nbrew tap TheSaifZaman/tap\nbrew install --cask heads-up --no-quarantine")
+                         "Anyone with a Mac (Apple Silicon, macOS 14+) can install with Homebrew:\n\nbrew tap TheSaifZaman/tap\nbrew trust TheSaifZaman/tap\nbrew install --cask heads-up\nxattr -dr com.apple.quarantine \"/Applications/Heads Up.app\"\n\nThe xattr command tells macOS to accept the app so it opens automatically (it's not notarized by Apple).")
 
                     HStack(alignment: .top, spacing: 12) {
                         Image(systemName: "star")
