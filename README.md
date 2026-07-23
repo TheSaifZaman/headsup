@@ -27,6 +27,16 @@ meeting.
   and notes (Zoom, Google Meet, Teams, Webex, Whereby)
 - **5 alert themes**, configurable lead time and alert sound
 
+## Install
+
+```sh
+brew tap TheSaifZaman/tap
+brew trust TheSaifZaman/tap
+brew install --cask heads-up --no-quarantine
+```
+
+Or grab the `.dmg` from [Releases](https://github.com/TheSaifZaman/headsup/releases).
+
 ## Build & run
 
 Requires macOS 14+ and the Swift toolchain (Xcode or Command Line Tools).
