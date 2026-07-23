@@ -31,11 +31,16 @@ meeting.
 
 ```sh
 brew tap TheSaifZaman/tap
-brew trust TheSaifZaman/tap
 brew install --cask heads-up --no-quarantine
 ```
 
-Or grab the `.dmg` from [Releases](https://github.com/TheSaifZaman/headsup/releases).
+If Homebrew warns about an untrusted tap, run `brew trust TheSaifZaman/tap`
+once and repeat the install. Or grab the `.dmg` from
+[Releases](https://github.com/TheSaifZaman/headsup/releases).
+
+Enjoying it? ⭐ star this repo, and open an
+[issue](https://github.com/TheSaifZaman/headsup/issues) for bugs or feature
+requests.
 
 ## Build & run
 

@@ -44,6 +44,22 @@ struct HelpView: View {
                     step("shippingbox", "7. Share it",
                          "Anyone with a Mac (Apple Silicon, macOS 14+) can install with Homebrew:\n\nbrew tap TheSaifZaman/tap\nbrew install --cask heads-up --no-quarantine")
 
+                    HStack(alignment: .top, spacing: 12) {
+                        Image(systemName: "star")
+                            .font(.system(size: 18, weight: .semibold))
+                            .foregroundStyle(Color.accentColor)
+                            .frame(width: 26)
+                        VStack(alignment: .leading, spacing: 4) {
+                            Text("8. Enjoying Heads Up?").font(.headline)
+                            HStack(spacing: 4) {
+                                Text("Star the repo, request features, or report bugs:")
+                                Link("github.com/TheSaifZaman/headsup", destination: URL(string: "https://github.com/TheSaifZaman/headsup/")!)
+                            }
+                            .font(.system(size: 13))
+                            .foregroundStyle(.secondary)
+                        }
+                    }
+
                     Text("Reopen this guide anytime: the ？ button up top, or Help → Heads Up Help.")
                         .font(.caption)
                         .foregroundStyle(.secondary)
