@@ -1,7 +1,6 @@
 # Heads Up
 
-A native macOS app that makes meetings impossible to miss — inspired by
-[In Your Face](https://www.inyourface.app/mac/), built for people with ADHD,
+A native macOS app that makes meetings impossible to miss — built for people with ADHD,
 time blindness, or deep hyperfocus. Instead of a small notification you can
 ignore, it takes over **every screen** with a full-screen alert before each
 meeting.
