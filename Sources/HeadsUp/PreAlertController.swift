@@ -55,12 +55,13 @@ final class PreAlertController {
 private struct PreAlertView: View {
     let event: StoredEvent
     let onDismiss: () -> Void
+    @State private var appeared = false
 
     var body: some View {
         TimelineView(.periodic(from: .now, by: 1)) { context in
             HStack(spacing: 12) {
                 RoundedRectangle(cornerRadius: 2)
-                    .fill(Color(nsColor: event.color))
+                    .fill(Brand.gradient)
                     .frame(width: 4, height: 40)
 
                 VStack(alignment: .leading, spacing: 2) {
@@ -94,7 +95,18 @@ private struct PreAlertView: View {
             }
             .padding(.horizontal, 14)
             .padding(.vertical, 12)
-            .background(.regularMaterial, in: RoundedRectangle(cornerRadius: 14))
+            .background(.regularMaterial, in: RoundedRectangle(cornerRadius: 14, style: .continuous))
+            .overlay(
+                RoundedRectangle(cornerRadius: 14, style: .continuous)
+                    .strokeBorder(Color.primary.opacity(0.08), lineWidth: 1)
+            )
+            .offset(y: appeared ? 0 : -24)
+            .opacity(appeared ? 1 : 0)
+        }
+        .onAppear {
+            withAnimation(.spring(response: 0.45, dampingFraction: 0.75)) {
+                appeared = true
+            }
         }
     }
 

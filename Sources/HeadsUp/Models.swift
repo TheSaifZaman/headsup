@@ -76,6 +76,33 @@ final class AppSettings: ObservableObject {
     @Published var autoJoinMeetings: Bool {
         didSet { defaults.set(autoJoinMeetings, forKey: "autoJoinMeetings") }
     }
+    /// Alert backdrop: "theme" (gradient), "image", or "video".
+    @Published var alertBackgroundType: String {
+        didSet { defaults.set(alertBackgroundType, forKey: "alertBackgroundType") }
+    }
+    /// Path to the user-chosen backdrop image/video.
+    @Published var alertBackgroundPath: String? {
+        didSet { defaults.set(alertBackgroundPath, forKey: "alertBackgroundPath") }
+    }
+
+    enum AlertBackdrop {
+        case theme
+        case image(URL)
+        case video(URL)
+    }
+
+    /// Resolved backdrop — falls back to the theme gradient if the chosen
+    /// file is missing (deleted, unplugged drive…).
+    var alertBackdrop: AlertBackdrop {
+        guard let path = alertBackgroundPath,
+              FileManager.default.fileExists(atPath: path) else { return .theme }
+        let url = URL(fileURLWithPath: path)
+        switch alertBackgroundType {
+        case "image": return .image(url)
+        case "video": return .video(url)
+        default: return .theme
+        }
+    }
 
     var theme: Theme { Theme(rawValue: themeName) ?? .classic }
 
@@ -107,6 +134,8 @@ final class AppSettings: ObservableObject {
         ignoreDeclinedEvents = defaults.object(forKey: "ignoreDeclinedEvents") as? Bool ?? true
         preAlertMinutes = defaults.object(forKey: "preAlertMinutes") as? Int ?? 10
         autoJoinMeetings = defaults.object(forKey: "autoJoinMeetings") as? Bool ?? false
+        alertBackgroundType = defaults.string(forKey: "alertBackgroundType") ?? "theme"
+        alertBackgroundPath = defaults.string(forKey: "alertBackgroundPath")
     }
 }
 

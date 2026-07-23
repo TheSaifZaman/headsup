@@ -7,7 +7,7 @@
 set -euo pipefail
 cd "$(dirname "$0")"
 
-VERSION="2.1"
+VERSION="3.0"
 
 echo "==> Building…"
 if swift build -c release --arch arm64 --arch x86_64 2>/dev/null; then

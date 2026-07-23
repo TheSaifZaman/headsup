@@ -236,8 +236,11 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             )
             let window = NSWindow(contentViewController: NSHostingController(rootView: view))
             window.title = "Heads Up"
-            window.styleMask = [.titled, .closable, .resizable, .miniaturizable]
-            window.setContentSize(NSSize(width: 780, height: 620))
+            window.styleMask = [.titled, .closable, .resizable, .miniaturizable, .fullSizeContentView]
+            window.titlebarAppearsTransparent = true
+            window.titleVisibility = .hidden
+            window.setContentSize(NSSize(width: 940, height: 700))
+            window.contentMinSize = NSSize(width: 880, height: 640)
             window.isReleasedWhenClosed = false
             window.center()
             scheduleWindow = window

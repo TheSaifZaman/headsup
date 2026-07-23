@@ -1,6 +1,7 @@
 import EventKit
 import ServiceManagement
 import SwiftUI
+import UniformTypeIdentifiers
 
 struct SettingsView: View {
     let calendarManager: CalendarManager
@@ -52,6 +53,37 @@ struct SettingsView: View {
                     ForEach(Theme.allCases) { theme in
                         Text(theme.rawValue).tag(theme.rawValue)
                     }
+                }
+            }
+
+            Section("Alert Backdrop") {
+                Picker("Background", selection: $settings.alertBackgroundType) {
+                    Text("Theme gradient").tag("theme")
+                    Text("Custom image").tag("image")
+                    Text("Custom video").tag("video")
+                }
+                .pickerStyle(.segmented)
+
+                if settings.alertBackgroundType != "theme" {
+                    HStack {
+                        Text(backdropFileName)
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                            .lineLimit(1)
+                            .truncationMode(.middle)
+                        Spacer()
+                        Button(settings.alertBackgroundType == "image" ? "Choose Image…" : "Choose Video…") {
+                            chooseBackdropFile()
+                        }
+                        if settings.alertBackgroundPath != nil {
+                            Button("Clear") {
+                                settings.alertBackgroundPath = nil
+                            }
+                        }
+                    }
+                    Text("Your image or looping video fills the whole alert screen (a dark overlay keeps the countdown readable). Falls back to the theme gradient if the file goes missing.")
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
                 }
             }
 
@@ -174,6 +206,21 @@ struct SettingsView: View {
             get: { databaseError != nil },
             set: { if !$0 { databaseError = nil } }
         )
+    }
+
+    private var backdropFileName: String {
+        guard let path = settings.alertBackgroundPath else { return "No file chosen" }
+        return URL(fileURLWithPath: path).lastPathComponent
+    }
+
+    private func chooseBackdropFile() {
+        let panel = NSOpenPanel()
+        panel.canChooseFiles = true
+        panel.canChooseDirectories = false
+        panel.allowedContentTypes = settings.alertBackgroundType == "image" ? [.image] : [.movie, .mpeg4Movie, .quickTimeMovie]
+        panel.prompt = "Use This File"
+        guard panel.runModal() == .OK, let url = panel.url else { return }
+        settings.alertBackgroundPath = url.path
     }
 
     private func chooseDatabaseFolder() {
