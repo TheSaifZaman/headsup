@@ -3,13 +3,17 @@ import SwiftUI
 
 // MARK: - Brand
 
+/// The app accent. Default is "deadline heat" (#FF4D3D → hue-shifted orange),
+/// but the user can pick any color or follow the alert theme — see
+/// Settings → Appearance.
+@MainActor
 enum Brand {
-    /// "Deadline heat" — the one accent in the app. #FF4D3D → #FF8A00.
-    static let heatA = Color(red: 1.00, green: 0.30, blue: 0.24)
-    static let heatB = Color(red: 1.00, green: 0.54, blue: 0.00)
+    static var colors: [Color] { AppSettings.shared.accentColors }
+
+    static var primary: Color { colors.first ?? Color(red: 1.00, green: 0.30, blue: 0.24) }
 
     static var gradient: LinearGradient {
-        LinearGradient(colors: [heatA, heatB], startPoint: .topLeading, endPoint: .bottomTrailing)
+        LinearGradient(colors: colors, startPoint: .topLeading, endPoint: .bottomTrailing)
     }
 }
 

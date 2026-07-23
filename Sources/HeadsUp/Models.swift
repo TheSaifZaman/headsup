@@ -76,6 +76,25 @@ final class AppSettings: ObservableObject {
     @Published var autoJoinMeetings: Bool {
         didSet { defaults.set(autoJoinMeetings, forKey: "autoJoinMeetings") }
     }
+    /// App accent: "custom" (accentColorHex) or "theme" (follows alert theme).
+    @Published var accentMode: String {
+        didSet { defaults.set(accentMode, forKey: "accentMode") }
+    }
+    /// Base color of the accent gradient when accentMode == "custom".
+    @Published var accentColorHex: String {
+        didSet { defaults.set(accentColorHex, forKey: "accentColorHex") }
+    }
+
+    /// The two stops of the accent gradient used across the app
+    /// (Up Next hero, mode switcher, join buttons, today markers…).
+    var accentColors: [Color] {
+        if accentMode == "theme" {
+            return theme.gradient
+        }
+        let base = NSColor(hex: accentColorHex)
+        return [Color(nsColor: base), Color(nsColor: base.hueShifted(by: 0.06))]
+    }
+
     /// Alert backdrop: "theme" (gradient), "image", or "video".
     @Published var alertBackgroundType: String {
         didSet { defaults.set(alertBackgroundType, forKey: "alertBackgroundType") }
@@ -136,6 +155,8 @@ final class AppSettings: ObservableObject {
         autoJoinMeetings = defaults.object(forKey: "autoJoinMeetings") as? Bool ?? false
         alertBackgroundType = defaults.string(forKey: "alertBackgroundType") ?? "theme"
         alertBackgroundPath = defaults.string(forKey: "alertBackgroundPath")
+        accentMode = defaults.string(forKey: "accentMode") ?? "custom"
+        accentColorHex = defaults.string(forKey: "accentColorHex") ?? "#FF4D3D"
     }
 }
 

@@ -93,6 +93,28 @@ struct SettingsView: View {
                 Text("At least one stays on so the app remains reachable.")
                     .font(.caption)
                     .foregroundStyle(.secondary)
+
+                Picker("Accent", selection: $settings.accentMode) {
+                    Text("Custom color").tag("custom")
+                    Text("Match alert theme").tag("theme")
+                }
+                if settings.accentMode == "custom" {
+                    ColorPicker("Accent color", selection: accentBinding, supportsOpacity: false)
+                }
+                HStack(spacing: 8) {
+                    Text("Preview")
+                    Capsule()
+                        .fill(LinearGradient(colors: settings.accentColors, startPoint: .leading, endPoint: .trailing))
+                        .frame(width: 90, height: 16)
+                    Spacer()
+                    Button("Reset") {
+                        settings.accentMode = "custom"
+                        settings.accentColorHex = "#FF4D3D"
+                    }
+                }
+                Text("The accent colors the Up Next card, mode switcher, join buttons, and today markers.")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
             }
 
             Section("Apple Calendars") {
@@ -205,6 +227,13 @@ struct SettingsView: View {
         Binding(
             get: { databaseError != nil },
             set: { if !$0 { databaseError = nil } }
+        )
+    }
+
+    private var accentBinding: Binding<Color> {
+        Binding(
+            get: { Color(nsColor: NSColor(hex: settings.accentColorHex)) },
+            set: { settings.accentColorHex = NSColor($0).hexString }
         )
     }
 

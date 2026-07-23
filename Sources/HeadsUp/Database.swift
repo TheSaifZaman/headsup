@@ -384,4 +384,17 @@ extension NSColor {
             alpha: 1
         )
     }
+
+    /// Rotates the hue — used to derive the second stop of the accent gradient.
+    func hueShifted(by delta: CGFloat) -> NSColor {
+        guard let rgb = usingColorSpace(.sRGB) else { return self }
+        var hue: CGFloat = 0, saturation: CGFloat = 0, brightness: CGFloat = 0, alpha: CGFloat = 0
+        rgb.getHue(&hue, saturation: &saturation, brightness: &brightness, alpha: &alpha)
+        return NSColor(
+            hue: fmod(hue + delta + 1, 1),
+            saturation: saturation,
+            brightness: brightness,
+            alpha: alpha
+        )
+    }
 }

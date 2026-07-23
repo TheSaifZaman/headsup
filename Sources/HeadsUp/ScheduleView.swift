@@ -9,6 +9,8 @@ struct ScheduleView: View {
     var onTestAlert: () -> Void = {}
 
     @ObservedObject private var db = Database.shared
+    // Observed so accent/theme changes restyle the window live.
+    @ObservedObject private var settings = AppSettings.shared
     @State private var showingSettings = false
     @State private var showingHelp = false
 
@@ -628,7 +630,7 @@ private struct UpNextHero: View {
             .padding(.horizontal, 18)
             .padding(.vertical, 15)
             .background(Brand.gradient, in: RoundedRectangle(cornerRadius: 16, style: .continuous))
-            .shadow(color: Brand.heatA.opacity(0.3), radius: 16, y: 6)
+            .shadow(color: Brand.primary.opacity(0.3), radius: 16, y: 6)
         }
     }
 
@@ -652,7 +654,7 @@ private struct HeroJoinButton: View {
         } label: {
             Label("Join", systemImage: "video.fill")
                 .font(.system(size: 13, weight: .bold, design: .rounded))
-                .foregroundStyle(Brand.heatA)
+                .foregroundStyle(Brand.primary)
                 .padding(.horizontal, 16)
                 .padding(.vertical, 9)
                 .background(.white, in: Capsule())
@@ -791,7 +793,7 @@ private struct WeekBars: View {
                             .frame(height: appeared ? max(5, CGFloat(entry.hours / maxHours) * 110) : 5)
                         Text(entry.day.formatted(.dateTime.weekday(.narrow)))
                             .font(.system(size: 10, weight: Calendar.current.isDateInToday(entry.day) ? .bold : .regular))
-                            .foregroundStyle(Calendar.current.isDateInToday(entry.day) ? Brand.heatA : Color.secondary)
+                            .foregroundStyle(Calendar.current.isDateInToday(entry.day) ? Brand.primary : Color.secondary)
                     }
                     .frame(maxWidth: .infinity)
                 }
@@ -825,7 +827,7 @@ private struct DayCell: View {
             VStack(spacing: 4) {
                 Text("\(Calendar.current.component(.day, from: day))")
                     .font(.system(size: 13, weight: isToday || isSelected ? .bold : .regular, design: .rounded))
-                    .foregroundStyle(isToday ? Brand.heatA : Color.primary)
+                    .foregroundStyle(isToday ? Brand.primary : Color.primary)
                 HStack(spacing: 3) {
                     ForEach(events.prefix(3), id: \.id) { event in
                         Circle()
